@@ -60,22 +60,21 @@ def extract(url):
     return data
 
 
-def crawl_onthemarket(root_url, counter):
+def crawl_rightmove(root_url, counter):
     print(f"\n🕷 crawling page {counter+1}")
     page = urlopen(f"{root_url}&page={counter}")
     html = page.read().decode("utf-8")
     soup = BeautifulSoup(html, "html.parser")
 
-    results = soup.find_all("ul", {"id": "properties"})
+    results = soup.find_all("a", {"class": "propertyCard-anchor"})
     if (len(results) > 0):
-        for ul in results:
-            for li in ul.find_all("li"):
-                property_id = li['data-instruction-id']
-                url = f"https://www.onthemarket.com/details/{property_id}/"
-                data = extract(url)
-                if (data['sqft'] != -1):
-                    process_property(data)
+        for a in results:
+            property_id = a['id'].replace('prop', '')
+            url = f"https://www.rightmove.co.uk/properties/{property_id}/"
+            data = extract(url)
+            if (data['sqft'] != -1):
+                process_property(data)
         counter += 1
-        crawl_onthemarket(root_url, counter)
+        crawl_rightmove(root_url, counter)
     else:
         print('✨Finished ✨')
