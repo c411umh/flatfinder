@@ -1,13 +1,29 @@
 # 🏠🕵️‍♂️ Flat finder
 
+## Installation
+
+```sh
+pip install -r requirements.txt
+```
+
+Install Tesseract (used for OCR)
+
+```sh
+brew install tesseract
+```
+
 ## Getting Started
 
 Paste a URL into the `search_urls` array and run:
+
 ```sh
 python main.py
 ```
 
+It will produce a `properties.csv` file for any matching properties
+
 ## Tests
+
 ```
 pytest
 ```
